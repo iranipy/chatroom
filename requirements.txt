@@ -16,10 +16,12 @@ hyperlink==21.0.0
 idna==3.1
 incremental==21.3.0
 msgpack==1.0.2
+psycopg2==2.8.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
 pyOpenSSL==20.0.1
+python-dotenv==0.15.0
 pytz==2021.1
 service-identity==18.1.0
 six==1.15.0
