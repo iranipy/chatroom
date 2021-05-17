@@ -1,1 +1,11 @@
 {% extends 'chatroom/base.html' %}
+
+{% block content %}
+    {% if room_info %}
+        <h3>Welcome to {{ room_info.name }}</h3>
+        <p>this room is about: {{ room_info.description }}</p>
+    {% else %}
+        <h3>Welcome to {{ room_name }}</h3>
+    {% endif %}
+
+{% endblock %}

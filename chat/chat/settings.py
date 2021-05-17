@@ -103,6 +103,7 @@ STATIC_URL = '/static/'
 
 # Extra settings
 APPEND_SLASH = False
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 CHANNEL_LAYERS = {
     'default': {

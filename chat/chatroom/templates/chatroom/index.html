@@ -1,8 +1,10 @@
 {% extends 'chatroom/base.html' %}
 {% block content %}
-
-<p>
-  your uid: <b>{{ uid }}</b>
-</p>
-
-{% endblock%}
+    <br>
+    <ul>
+        {% for r in p_rooms %}
+            <li><a href="{% url 'room' r.slug %}"> {{ r.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <br>
+{% endblock %}
