@@ -1,6 +1,9 @@
 import json
+import uuid
 
 from channels.generic.websocket import AsyncWebsocketConsumer
+
+from .utils import r
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -8,12 +11,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
+        self.uid = str(uuid.uuid4())
 
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-
+        r.set(name=self.uid, value=self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -21,6 +25,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+        r.delete(self.uid)
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -38,5 +43,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
 
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': f'{self.uid}: {message}'
         }))

@@ -4,11 +4,8 @@ from django.shortcuts import render
 
 
 def index(request):
-    context = {
-        'uid': uuid.uuid4()
-    }
 
-    return render(request, 'chatroom/index.html', context=context)
+    return render(request, 'chatroom/index.html')
 
 
 def room(request, room_name):
