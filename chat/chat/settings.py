@@ -60,15 +60,21 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 ASGI_APPLICATION = 'chat.asgi.application'
 
 # Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': getenv('DB_HOST'),
+#         'PORT': getenv('DB_PORT'),
+#         'NAME': getenv('DB_NAME'),
+#         'USER': getenv('DB_USER'),
+#         'PASSWORD': getenv('DB_PASSWORD'),
+#     },
+# }  password authentication failed for user "qpwvamrmoowdzt"
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': getenv('DB_HOST'),
-        'PORT': getenv('DB_PORT'),
-        'NAME': getenv('DB_NAME'),
-        'USER': getenv('DB_USER'),
-        'PASSWORD': getenv('DB_PASSWORD'),
-    },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Password validation

@@ -10,5 +10,4 @@ class PrivateRoomCreationForm(forms.ModelForm):
 
 
 class EnterPrivateRoom(forms.Form):
-    roomname = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)

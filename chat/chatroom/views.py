@@ -10,6 +10,11 @@ def index(request):
 
 
 def room(request, room_name):
+    try:
+        private_room = PrivateRoom.objects.get(name=room_name)
+        return redirect('enter-private-room', room_name)
+    except PrivateRoom.DoesNotExist:
+        pass
     context = {
         'room_name': room_name
     }
@@ -33,29 +38,23 @@ def create_private_room(request):
         form = PrivateRoomCreationForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            room = PrivateRoom.objects.create(**form.cleaned_data).save()
-            room_uid = PrivateRoom.objects.get(name=name).room_uid
+            PrivateRoom.objects.create(**form.cleaned_data).save()
             messages.success(request, f'{name} room created')
-            return redirect('room', room_uid)
+            return redirect('room', name)
     form = PrivateRoomCreationForm()
     return render(request, 'chatroom/create_private_room.html', {'form': form})
 
 
-def enter_private_room(request):
+def enter_private_room(request, room_name):
     if request.method == 'POST':
         form = EnterPrivateRoom(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('roomname')
-            try:
-                room = PrivateRoom.objects.get(name=name)
-            except PrivateRoom.DoesNotExist:
-                messages.error(request, 'not found!')
-                return redirect('enter-private-room')
+            private_room = PrivateRoom.objects.get(name=room_name)
             password = form.cleaned_data.get('password')
-            if room.password != password:
-                messages.error(request, 'Password is wrong!')
-                return redirect('enter-private-room')
-            return redirect('room', room.room_uid)
-
+            if private_room.password != password:
+                messages.error(request, 'Wrong')
+                return redirect('enter-private-room', room_name)
+            messages.success(request, 'Welcome')
+            return redirect('room', room_name)
     form = EnterPrivateRoom()
     return render(request, 'chatroom/enter_private_room.html', {'form': form})
